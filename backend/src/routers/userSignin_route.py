@@ -9,4 +9,6 @@ signin_router =APIRouter()
 
 @signin_router.post('/signin')
 def signin_user(user: UserLogin,db:Session=Depends(get_db)):
-    return {"message":"Signin route"}
+    email =user.email
+    print(email)
+    return {"message":"Signin route","email":email}
