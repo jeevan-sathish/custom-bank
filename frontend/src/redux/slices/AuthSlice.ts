@@ -27,7 +27,7 @@ interface AuthState {
 export const signupUser = createAsyncThunk<AuthResponse, Signup>(
   "auth/signup",
   async (data: Signup) => {
-    const response = await axios.post("http://localhost:3000/signup", data);
+    const response = await axios.post("http://localhost:8000/signup", data);
     return response.data;
   },
 );
@@ -35,7 +35,7 @@ export const signupUser = createAsyncThunk<AuthResponse, Signup>(
 export const signinUser = createAsyncThunk<AuthResponse, Signin>(
   "auth/signin",
   async (data: Signin) => {
-    const response = await axios.post("http://localhost:3000/signin", data);
+    const response = await axios.post("http://localhost:8000/signin", data);
     return response.data;
   },
 );
