@@ -6,7 +6,7 @@ from controllers.handleUserAccSignin import handle_user_signin
 
 
 
-signin_router =APIRouter()
+signin_router =APIRouter(prefix ="/auth")
 
 @signin_router.post('/signin')
 def signin_user(user: UserLogin,db:Session=Depends(get_db)):

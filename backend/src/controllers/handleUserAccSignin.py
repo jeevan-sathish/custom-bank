@@ -6,6 +6,9 @@ def handle_user_signin(user,db):
     ).first()
     if existing_user:
         print("user account exist")
+        return {
+            "message":"signin succesfull"
+        }
 
     else:
         raise HTTPException(
