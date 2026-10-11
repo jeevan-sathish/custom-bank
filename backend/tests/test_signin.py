@@ -1,4 +1,4 @@
-def test_demo_test(client):
+def test_signin(client):
     response =client.post("/signin",json={
         "email":"jeevanjeev@gmail.com",
         "password":"jeevanjeev@1234"

@@ -20,6 +20,9 @@ def create_user_acc(user,db):
     db.commit()
     db.refresh(new_user)
     print("user added succesfully")
+    raise HTTPException(
+        status_code=200,
+        detail="account created"
+    )
 
-    print(user.name)
-    return user.name
+    
