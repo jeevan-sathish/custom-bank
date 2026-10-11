@@ -1,5 +1,5 @@
 def test_signin(client):
-    response =client.post("/signin",json={
+    response =client.post("/auth/signin",json={
         "email":"jeevanjeev@gmail.com",
         "password":"jeevanjeev@1234"
     })
