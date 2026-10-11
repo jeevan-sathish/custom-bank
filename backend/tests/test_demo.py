@@ -1,6 +1,8 @@
-def test_cemo_route(client):
-    response =client.get('/')
-    assert response.status_code == 200
-    assert response.json() =={
-        "message":"this is fast api server"
-    }
+def test_demo_test(client):
+    response =client.post("/signin",json={
+        "email":"jeevanjeev@gmail.com",
+        "password":"jeevanjeev@1234"
+    })
+    assert response.status_code == 401
+    data =response.json()
+    assert data["detail"]=="please signup acc not found"

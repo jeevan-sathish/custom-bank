@@ -22,12 +22,6 @@ app.add_middleware(
 app.include_router(signup_router)
 app.include_router(signin_router)
 
-@app.get('/')
-def demo_test():
-    return {
-        "message":"this is fast api server"
-    }
-
 
 
 
