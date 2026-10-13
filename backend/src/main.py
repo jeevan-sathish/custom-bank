@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends,Header
 from sqlalchemy.orm import  Session
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -21,6 +21,16 @@ app.add_middleware(
 
 app.include_router(signup_router)
 app.include_router(signin_router)
+
+@app.post('/demo')
+def demo(token:str | None =Header(default=None)):
+    if token is None:
+        return {
+            "message":"no token found"
+        }
+    return {
+        "message":f"this is {token}"
+    }
 
 
 

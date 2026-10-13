@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { signupUser } from "../../../redux/slices/AuthSlice";
 import type { AppDispatch } from "../../../redux/store/store";
+import { useNavigate } from "react-router-dom";
 
 const Signup: React.FC = () => {
+  // const user = useSelector((state: RootState) => state.authStore.user);
+  const navigate = useNavigate();
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -12,9 +15,14 @@ const Signup: React.FC = () => {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    dispatch(signupUser(data));
+    try {
+      await dispatch(signupUser(data)).unwrap();
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Signup failed:", error);
+    }
   }
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -47,6 +55,7 @@ const Signup: React.FC = () => {
             placeholder="Enter your name"
             value={data.name}
             onChange={handleChange}
+            required
             className="rounded-lg border border-gray-700 bg-gray-800 px-4 py-3 text-white outline-none transition placeholder:text-gray-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
           />
         </div>
@@ -63,6 +72,7 @@ const Signup: React.FC = () => {
             placeholder="Enter your email"
             value={data.email}
             onChange={handleChange}
+            required
             className="rounded-lg border border-gray-700 bg-gray-800 px-4 py-3 text-white outline-none transition placeholder:text-gray-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
           />
         </div>
@@ -82,6 +92,7 @@ const Signup: React.FC = () => {
             placeholder="Enter your password"
             value={data.password}
             onChange={handleChange}
+            required
             className="rounded-lg border border-gray-700 bg-gray-800 px-4 py-3 text-white outline-none transition placeholder:text-gray-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
           />
         </div>

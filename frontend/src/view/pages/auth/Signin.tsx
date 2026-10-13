@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { signinUser } from "../../../redux/slices/AuthSlice";
 import { useDispatch } from "react-redux";
 import type { AppDispatch } from "../../../redux/store/store";
+import { useNavigate } from "react-router-dom";
 
 const Signin: React.FC = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -19,9 +21,14 @@ const Signin: React.FC = () => {
     }));
   }
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    dispatch(signinUser(data));
+    try {
+      await dispatch(signinUser(data)).unwrap();
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Signup failed:", error);
+    }
   }
 
   return (

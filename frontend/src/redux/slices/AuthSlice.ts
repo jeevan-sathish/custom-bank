@@ -27,15 +27,27 @@ interface AuthState {
 export const signupUser = createAsyncThunk<AuthResponse, Signup>(
   "auth/signup",
   async (data: Signup) => {
-    const response = await axios.post("http://localhost:8000/signup", data);
-    return response.data;
+    const response = await axios.post(
+      "http://localhost:8000/auth/signup",
+      data,
+    );
+    const result = response.data;
+
+    if (!result.cb_access_token || !result.cb_refresh_token) {
+      throw new Error("Signup response is missing tokens");
+    }
+
+    return result;
   },
 );
 
 export const signinUser = createAsyncThunk<AuthResponse, Signin>(
   "auth/signin",
   async (data: Signin) => {
-    const response = await axios.post("http://localhost:8000/signin", data);
+    const response = await axios.post(
+      "http://localhost:8000/auth/signin",
+      data,
+    );
     return response.data;
   },
 );
@@ -59,10 +71,16 @@ const AuthSlice = createSlice({
       .addCase(signupUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
+        localStorage.setItem("cb_access_token", action.payload.cb_access_token);
+        localStorage.setItem(
+          "cb_refresh_token",
+          action.payload.cb_refresh_token,
+        );
+        console.log(action.payload);
       })
-      .addCase(signupUser.rejected, (state) => {
+      .addCase(signupUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = "signUp failed";
+        state.error = action.error.message ?? "Signup failed";
       });
 
     builder
@@ -73,6 +91,12 @@ const AuthSlice = createSlice({
       .addCase(signinUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
+        localStorage.setItem("cb_access_token", action.payload.cb_access_token);
+        localStorage.setItem(
+          "cb_refresh_token",
+          action.payload.cb_refresh_token,
+        );
+        console.log(action.payload);
       })
       .addCase(signinUser.rejected, (state) => {
         state.loading = false;
